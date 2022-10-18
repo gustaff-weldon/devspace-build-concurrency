@@ -1,6 +1,7 @@
 FROM \
   alpine:3.15 \
-  AS project-b
+  AS project-c
+
 
 COPY \
   files-c \

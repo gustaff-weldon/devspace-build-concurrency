@@ -1,5 +1,5 @@
 version: v2beta1
-name: project-b
+name: project-c
 
 # This is a list of `pipelines` that DevSpace can execute (you can define your own)
 pipelines:
@@ -8,7 +8,7 @@ pipelines:
     run: |-
       run_dependencies --all       # 1. Deploy any projects this project needs (see "dependencies")
       create_deployments --all     # 2. Deploy Helm charts and manifests specfied as "deployments"
-      start_dev project-b          # 3. Start dev mode "app" (see "dev" section)
+      start_dev project-c          # 3. Start dev mode "app" (see "dev" section)
   # You can run this pipeline via `devspace deploy` (or `devspace run-pipeline deploy`)
   deploy:
     run: |-
@@ -19,15 +19,16 @@ pipelines:
 # This is a list of `images` that DevSpace can build for this project
 # We recommend to skip image building during development (devspace dev) as much as possible
 images:
-  project-b:
+  project-c:
     buildKit: {}
-    image: project-b
+    image: project-c
+
     dockerfile: ./Dockerfile
     skipPush: true
 
 # This is a list of `deployments` that DevSpace can create for this project
 deployments:
-  project-b:
+  project-c:
     # This deployment uses `helm` but you can also define `kubectl` deployments or kustomizations
     helm:
       # We are deploying this project with the Helm chart you provided
@@ -38,13 +39,15 @@ deployments:
       # You may also use `valuesfiles-c` to load values from files-c, e.g. valuesfiles-c: ["values.yaml"]
       values:
         containers:
-          - image: project-b
+          - image: project-c
+
 
 # This is a list of `dev` containers that are based on the containers created by your deployments
 dev:
-  project-b:
+  project-c:
     # Search for the container that runs this image
-    imageSelector: project-b
+    imageSelector: project-c
+
     # Replace the container image with this dev-optimized image (allows to skip image building during development)
     devImage: ghcr.io/loft-sh/devspace-containers/alpine:3
     # Sync files-c between the local files-cystem and the development container
